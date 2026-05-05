@@ -1,0 +1,18 @@
+[Unit]
+Description=BioTime Colombia - Monitor Llegadas Tarde
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=biotime
+WorkingDirectory=/srv/biotime_colombia
+EnvironmentFile=/srv/biotime_colombia/.env
+ExecStart=/srv/biotime_colombia/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 1
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/var/log/biotime_colombia/service.log
+StandardError=append:/var/log/biotime_colombia/error.log
+
+[Install]
+WantedBy=multi-user.target
